@@ -1,6 +1,6 @@
 interface:
-  display_name: "ThreeUI Catalog Builder"
-  short_description: "Build ThreeUI-style interactive catalogs"
-  default_prompt: "Use $threeui to build a ThreeUI-style interactive component catalog with browse, search, live previews, controls, and responsive routing."
+  display_name: "ThreeUI 目录构建器"
+  short_description: "构建具有浏览、搜索和实时预览能力的 ThreeUI 风格组件目录"
+  default_prompt: "使用 $threeui 构建一个具有浏览、搜索、实时预览、控制器和响应式路由的 ThreeUI 风格组件目录。"
 policy:
   allow_implicit_invocation: true
