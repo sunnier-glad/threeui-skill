@@ -1,0 +1,6 @@
+interface:
+  display_name: "ThreeUI Catalog Builder"
+  short_description: "Build ThreeUI-style interactive catalogs"
+  default_prompt: "Use $threeui to build a ThreeUI-style interactive component catalog with browse, search, live previews, controls, and responsive routing."
+policy:
+  allow_implicit_invocation: true
