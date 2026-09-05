@@ -1,61 +1,61 @@
 ---
 name: threeui
-description: Build React interfaces with the same interactive component-catalog experience as ThreeUI: browseable entries, search, routing, themes, live previews, variants, controls, and source/install documentation. Use for ThreeUI-like catalogs or when the user explicitly asks to reproduce the ThreeUI experience; do not use for generic React UI work.
+description: "按照 ThreeUI 的方式构建 React 交互式组件目录，包含浏览、搜索、路由、主题、实时预览、变体、控制器以及源码和安装文档。在用户要求复刻 ThreeUI 体验或构建类似目录时使用，不用于普通 React 界面开发。"
 metadata:
-  short-description: Build ThreeUI-style interactive catalogs
+  short-description: "构建具有浏览、搜索和实时预览能力的 ThreeUI 风格组件目录"
 ---
 
-# ThreeUI-style catalog builder
+# ThreeUI 风格目录构建器
 
-Use the public ThreeUI project as the behavioral and visual reference when the user asks for a ThreeUI-like experience. The target is a usable component catalog and preview application, not a static marketing mockup.
+当用户要求类似 ThreeUI 的体验时，以公开的 ThreeUI 项目作为交互和视觉参考。目标是一个真正可用的组件目录与预览应用，而不是只有静态卡片的营销页面。
 
-## Reference and boundaries
+## 参考来源与边界
 
-- Public reference repository: <https://github.com/MengTo/threeui>
-- Public package: `@designcodeio/threeui`
-- Community catalog: <https://threeui.com>
-- Read [references/threeui-catalog.md](references/threeui-catalog.md) when building the catalog shell, registry, routes, or preview controls.
+- 公开参考仓库：[https://github.com/MengTo/threeui](https://github.com/MengTo/threeui)
+- 公开组件包：`@designcodeio/threeui`
+- Community 目录：[https://threeui.com](https://threeui.com)
+- 构建目录外壳、注册表、路由或预览控制器时，读取 [references/threeui-catalog.md](references/threeui-catalog.md)。
 
-Reproduce the public interaction model and information architecture while adapting branding, content, and layout details to the user's product. Do not copy private or Pro/Beta source, protected assets, remote thumbnails, or brand identity without permission. Preserve required license and third-party notices when reusing MIT Community code or assets.
+复刻公开的交互模型和信息架构，并根据用户产品调整品牌、内容和布局。未经许可，不复制私有内容、Pro/Beta 源码、受保护资源、远程缩略图或品牌标识。复用 MIT 授权的 Community 代码或资源时，保留相应许可证和第三方声明。
 
-## Decide the task mode
+## 选择任务模式
 
-Choose the smallest mode that fulfills the request:
+根据用户需求选择最小实现范围：
 
-1. **Catalog application** — build or extend the full browse/search/preview experience described below.
-2. **Component integration** — use verified components from `@designcodeio/threeui` inside an existing React app, while keeping the host app's structure.
-3. **Single preview or page** — implement one verified component or renderer with its controls and responsive behavior; do not scaffold the whole catalog unless requested.
+1. **目录应用**：构建或扩展完整的浏览、搜索和预览体验。
+2. **组件集成**：在现有 React 应用中使用 `@designcodeio/threeui` 的已验证组件，并保持宿主项目结构。
+3. **单个预览或页面**：实现一个已验证的组件或渲染器及其控制器和响应式行为；除非用户要求，否则不要搭建完整目录。
 
-If the user does not specify a framework, prefer React + TypeScript with the host project's existing build tool. Do not replace an existing stack without a reason.
+如果用户没有指定框架，优先使用项目现有的 React、TypeScript 和构建工具。没有充分理由时，不替换已有技术栈。
 
-## Full catalog behavior
+## 完整目录的行为要求
 
-For catalog-application tasks, implement these behaviors as a coherent system:
+构建目录应用时，将以下能力作为一个完整系统实现：
 
-- A top bar with menu access, a compact brand mark, an upgrade/action area when relevant, and theme controls.
-- A responsive sidebar/navigation rail listing catalog categories or featured entries, plus Browse, installation documentation, and any product-specific documentation routes.
-- A browse page with a metadata-driven card grid, category filters, tag filters, descriptions, thumbnails/previews, and empty states.
-- Search in a dialog or command palette. Support `Ctrl/Cmd+K` to open it and `Escape` to close overlays. Search names, descriptions, categories, and tags.
-- Detail pages with a live preview, loading/error states, title and description, runtime/interaction information, variant selection, controls, source/import tabs, and installation guidance.
-- URL-addressable routes for browse filters, catalog entries, variants, and documentation. Keep browser back/forward behavior working; use the project's router if present, otherwise a small route layer with `history.pushState`/`popstate` is acceptable.
-- Light, dark, and system appearance modes where they fit the product. Persist the choice and any user-selected palette safely, but keep a usable default when storage is unavailable.
-- A narrow-screen layout: collapsible navigation, scrim/overlay dismissal, readable controls, no horizontal overflow, and touch-sized interactive targets.
+- 顶部栏：菜单入口、紧凑品牌标识、必要时的升级或操作区域，以及主题控制器。
+- 响应式侧边栏或导航栏：展示目录分类或精选条目，并提供 Browse、安装文档和产品相关文档路由。
+- Browse 页面：由元数据驱动的卡片网格、分类筛选、标签筛选、描述、缩略图或预览，以及空状态。
+- 搜索弹窗或命令面板：支持 `Ctrl/Cmd+K` 打开、`Escape` 关闭，并搜索名称、描述、分类和标签。
+- 详情页：实时预览、加载和错误状态、标题与描述、运行时和交互信息、变体选择、参数控制器、源码或导入标签页，以及安装说明。
+- 可通过 URL 访问的分类筛选、标签筛选、目录条目、变体和文档路由。优先使用项目已有路由；没有路由库时，可以使用 `history.pushState` 和 `popstate` 实现轻量路由。
+- 在产品需要时支持浅色、深色和跟随系统外观。安全保存用户选择；当存储不可用时仍提供可用的默认状态。
+- 窄屏布局：可折叠导航、可关闭的遮罩层、可读的控制器、无横向溢出，以及适合触控的交互尺寸。
 
-Do not make cards decorative only: clicking a card must reach a working detail/preview route, and controls must change the rendered preview or clearly report when a renderer does not expose that capability.
+卡片不能只是装饰：点击卡片必须进入可工作的详情或预览路由；控制器必须改变预览，或者明确说明该渲染器不提供对应能力。
 
-## Public component integration
+## 公开组件的集成方式
 
-When using the public package:
+使用公开组件包时：
 
-1. Inspect the existing package manager and React/TypeScript setup.
-2. Install the package only when needed:
+1. 先检查项目使用的包管理器，以及 React 和 TypeScript 配置。
+2. 仅在项目尚未安装时添加依赖：
 
    ```bash
    npm install @designcodeio/threeui
    ```
 
-   Use the project's package manager when it differs from npm.
-3. Import shared styles once and prefer verified component subpaths when supported:
+   如果项目使用其他包管理器，沿用项目现有选择。
+3. 共享样式只引入一次；在包支持时，优先使用组件子路径：
 
    ```tsx
    import { AtTheHorizon } from "@designcodeio/threeui";
@@ -70,35 +70,35 @@ When using the public package:
    import { AtTheHorizon } from "@designcodeio/threeui/components/AtTheHorizon";
    ```
 
-Never invent component names, props, variants, or asset URLs. Verify them from installed exports, package types, the public repository, or the Community catalog before coding.
+不要虚构组件名称、属性、变体或资源 URL。编码前，必须从已安装包的导出、类型定义、公开仓库或 Community 目录中验证它们。
 
-## Renderers and assets
+## 渲染器和资源
 
-Keep catalog metadata separate from renderer code. Use a registry keyed by stable IDs; lazy-load expensive Three.js/WebGL renderers where practical; and keep the active renderer, variant, and control values synchronized with route state.
+将目录元数据与渲染器代码分离。使用稳定 ID 作为注册表键；对耗费较大的 Three.js 或 WebGL 渲染器尽量延迟加载；并让当前渲染器、变体和控制器值与路由状态保持同步。
 
-Some public components render complete HTML documents or use root-relative runtime files. Copy only the required files from `node_modules/@designcodeio/threeui/lib-dist/assets/` into the app's public directory, or use a verified `sourceUrl`/`assetBaseUrl` prop. Test asset resolution from the deployed base path as well as the development root.
+部分公开组件会渲染完整 HTML 文档，或依赖根路径运行时文件。此类组件应从 `node_modules/@designcodeio/threeui/lib-dist/assets/` 复制必要文件到应用的 public 目录，或者使用已验证的 `sourceUrl`/`assetBaseUrl` 属性。除了开发根路径，还要从部署后的基础路径验证资源解析。
 
-For WebGL or browser-only components, follow the host framework's client-component/SSR rules. Provide loading and failure states, dispose renderer resources on unmount, respect reduced motion where possible, and keep essential text and actions available outside the canvas.
+对于 WebGL 或只能在浏览器运行的组件，遵循宿主框架的客户端组件和 SSR 规则。提供加载和失败状态；组件卸载时释放渲染器资源；尽可能尊重减少动态效果设置；并确保关键信息和操作不依赖画布才能访问。
 
-## Access and licensing
+## 访问权限与许可证
 
-The public repository and npm package expose the Community implementation. Do not claim Pro or Beta source is public. Do not authenticate, download entitled source, or overwrite project files with the ThreeUI Pro CLI unless the user explicitly requests it and confirms access. The documented command is:
+公开仓库和 npm 包提供 Community 实现。不要声称 Pro 或 Beta 源码已公开。除非用户明确要求并确认拥有权限，否则不要通过 ThreeUI Pro CLI 登录、下载授权源码或覆盖项目文件。官方命令格式为：
 
 ```bash
 npx @designcodeio/threeui-cli add <component-slug>
 ```
 
-Do not redistribute remote catalog thumbnails or previews as local assets without checking their license. Keep MIT, SIL Open Font License, and third-party notices with any reused material.
+未经许可，不要把远程目录缩略图或预览作为本地资源重新分发。复用内容时保留 MIT、SIL Open Font License 和第三方声明。
 
-## Verification
+## 验证要求
 
-For a catalog application, run the available type check, lint, tests, and production build. Then verify:
+对于目录应用，运行项目已有的类型检查、Lint、测试和生产构建，然后确认：
 
-- Browse, category/tag filters, search, detail routes, variants, and documentation links.
-- Direct loading and browser back/forward for representative URLs.
-- Light/dark/system themes and persistence.
-- Mobile navigation, keyboard shortcuts, focus order, labels, and reduced-motion behavior.
-- Preview loading/error states, WebGL cleanup, asset URLs, console errors, and horizontal overflow.
-- At least one real renderer and one renderer with controls, rather than only mocked cards.
+- Browse、分类和标签筛选、搜索、详情路由、变体及文档链接均可用。
+- 代表性 URL 可以直接打开，浏览器前进和后退状态正确。
+- 浅色、深色和跟随系统主题，以及主题持久化行为正确。
+- 移动端导航、键盘快捷键、焦点顺序、标签和减少动态效果行为正确。
+- 预览加载和错误状态、WebGL 资源释放、资源 URL、控制台错误和横向溢出均已检查。
+- 至少验证一个真实渲染器，以及一个带控制器的渲染器，而不只是模拟卡片。
 
-Report unverified APIs, missing assets, unavailable WebGL, or environment limitations instead of presenting a visual placeholder as complete functionality.
+如果 API 未验证、资源缺失、环境不支持 WebGL 或存在其他限制，必须明确报告，不要把视觉占位内容描述为完整功能。
