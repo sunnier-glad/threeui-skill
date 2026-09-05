@@ -1,22 +1,22 @@
-# ThreeUI catalog reference
+# ThreeUI 目录参考
 
-Use this reference only when building or substantially extending a ThreeUI-style catalog application.
+只有在构建或大幅扩展 ThreeUI 风格的目录应用时，才读取本参考文档。
 
-## Information architecture
+## 信息架构
 
-The public application is organized around these page states:
+公开应用可以围绕以下页面状态组织：
 
-- `browse`: all catalog entries, optionally filtered by category or tag
-- `shader`: one entry's live preview and documentation
-- `installation`: setup and package guidance
-- `mcp`: product-specific integration documentation when applicable
-- `not-found`: a recoverable route error with a link back to Browse
+- `browse`：全部目录条目，可按分类或标签筛选
+- `shader`：单个条目的实时预览和文档
+- `installation`：安装和包使用说明
+- `mcp`：适用时提供产品集成文档
+- `not-found`：可恢复的路由错误，并提供返回 Browse 的链接
 
-The shell has a top bar, a navigation sidebar, one scrollable main pane, a footer, and an overlay search dialog. On mobile, the sidebar becomes a drawer with a dismissible scrim.
+应用外壳包含顶部栏、导航侧边栏、一个可滚动的主内容区、页脚和搜索弹窗。在移动端，侧边栏变为带遮罩层的抽屉。
 
-## Registry model
+## 注册表模型
 
-Keep the registry data-driven. A useful entry shape is:
+使用数据驱动的注册表。可以采用以下条目结构：
 
 ```ts
 type CatalogEntry = {
@@ -59,53 +59,53 @@ type Variant = {
 };
 ```
 
-Supported control kinds from the public model are:
+公开模型支持的控制器类型包括：
 
-- `range`: numeric min, max, step, and display precision
-- `choice`: labeled options
-- `checkpoint`: discrete options used for checkpoints or presets
-- `color`: color value
-- `text`: text value, optionally with max length and placeholder
+- `range`：带最小值、最大值、步长和显示精度的数值控制器
+- `choice`：带标签的选项控制器
+- `checkpoint`：用于检查点或预设的离散选项
+- `color`：颜色值控制器
+- `text`：文本值控制器，可选最大长度和占位文本
 
-Treat this as a design model, not a reason to fabricate metadata. Only expose fields that the actual renderer supports.
+以上是设计模型，不是虚构元数据的理由。只暴露实际渲染器支持的字段。
 
-## Interaction contract
+## 交互契约
 
-Use one source of truth for route state. Selecting an entry should:
+使用单一来源管理路由状态。选择条目时应：
 
-1. resolve a base entry and optional variant;
-2. update the active preview and controls;
-3. push or replace the canonical URL;
-4. close search and mobile navigation overlays;
-5. restore the same state when the URL is loaded directly or browser history changes.
+1. 解析基础条目和可选变体；
+2. 更新当前预览和控制器；
+3. 推送或替换规范 URL；
+4. 关闭搜索弹窗和移动端导航抽屉；
+5. 直接加载 URL 或使用浏览器历史记录时恢复相同状态。
 
-Selecting a category or tag should reset the incompatible filter and produce a stable URL. Search should select an entry through the same route transition as the sidebar and browse cards.
+选择分类或标签时，应清除互不兼容的筛选条件，并生成稳定 URL。搜索选择条目时，应复用侧边栏和 Browse 卡片使用的同一套路由切换逻辑。
 
-Theme state should support `light`, `dark`, and `system` when the product needs them. Apply the resolved scheme to the document, listen for system-scheme changes in system mode, and tolerate unavailable `localStorage`.
+主题状态在产品需要时支持 `light`、`dark` 和 `system`。将解析后的外观应用到文档；在 `system` 模式监听系统外观变化；并容忍 `localStorage` 不可用的情况。
 
-## Preview layout
+## 预览布局
 
-Detail pages should make the renderer the primary visual surface. Put explanatory metadata and controls around it without covering essential interactions. Include:
+详情页应让渲染器成为主要视觉区域，说明和控制器围绕它布局，不能遮挡关键交互。应包含：
 
-- a visible loading state while a lazy renderer resolves;
-- an error boundary or recoverable error state;
-- a variant picker only when variants exist;
-- controls generated from the entry/variant metadata;
-- source/import information that is copyable and verified;
-- an installation section appropriate to the selected package/framework.
+- 延迟加载渲染器时显示明确的加载状态；
+- 错误边界或可恢复的错误状态；
+- 仅在存在变体时显示变体选择器；
+- 根据条目或变体元数据生成控制器；
+- 可复制且已验证的源码或导入信息；
+- 与所选包和框架匹配的安装说明。
 
-For document-style renderers, isolate the document preview so its CSS and runtime do not leak into the catalog shell. For canvas renderers, size the canvas from its container, handle resize and device pixel ratio, and clean up listeners/animation loops on unmount.
+对于文档型渲染器，隔离文档预览，避免其 CSS 和运行时污染目录外壳。对于画布型渲染器，根据容器尺寸设置画布，处理尺寸变化和设备像素比，并在卸载时清理监听器和动画循环。
 
-## Visual direction
+## 视觉方向
 
-Aim for a restrained, editorial developer-tool interface: strong typographic hierarchy, quiet surfaces, compact navigation, generous preview space, clear metadata, and motion used to communicate state. Keep the preview and its controls visually dominant. Adapt colors and branding to the user's product instead of copying ThreeUI's mark, exact text, or remote artwork.
+采用克制、编辑感强的开发者工具界面：清晰的文字层级、安静的表面、紧凑的导航、充足的预览空间、明确的元数据，以及用于传达状态的动效。预览和控制器应保持视觉主导。根据用户产品调整颜色和品牌，不要复制 ThreeUI 的标识、原文案或远程艺术资源。
 
-## Minimal acceptance scenario
+## 最小验收场景
 
-Before calling the catalog complete, manually exercise this path:
+在宣布目录完成前，手动执行以下流程：
 
-1. Open Browse on a narrow viewport.
-2. Open search with `Ctrl/Cmd+K`, search for a verified entry, and select it.
-3. Change a variant and at least one control.
-4. Reload the detail URL and use browser Back to return to Browse.
-5. Toggle theme, close/reopen the mobile drawer, and verify no console error or horizontal overflow.
+1. 在窄屏视口打开 Browse。
+2. 使用 `Ctrl/Cmd+K` 打开搜索，搜索一个已验证条目并进入详情。
+3. 修改一个变体和至少一个控制器。
+4. 重新加载详情 URL，再使用浏览器后退返回 Browse。
+5. 切换主题，关闭并重新打开移动端抽屉，确认没有控制台错误或横向溢出。
